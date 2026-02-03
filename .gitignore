@@ -27,6 +27,9 @@ ENV/
 .DS_Store
 Thumbs.db
 
-# Project specific
-output/*.pdf
+# Project specific - ignore input and output folder contents
+input/*
+!input/.gitkeep
+output/*
 !output/.gitkeep
+
