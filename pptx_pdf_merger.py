@@ -418,8 +418,9 @@ class PDFMergerGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("PPTX-PDF Merger")
-        self.root.geometry("600x500")
-        self.root.resizable(False, False)
+        self.root.geometry("700x700")
+        self.root.resizable(True, True)
+        self.root.minsize(600, 500)
         
         # Variables
         self.input_folder = tk.StringVar(value=str(Path.cwd() / "input"))
@@ -458,7 +459,7 @@ class PDFMergerGUI:
             self.root,
             text="PPTX-PDF Merger",
             font=("Arial", 18, "bold"),
-            pady=15
+            pady=10
         )
         title_label.pack()
         
@@ -469,10 +470,10 @@ class PDFMergerGUI:
             font=("Arial", 10),
             fg="gray"
         )
-        desc_label.pack()
+        desc_label.pack(pady=(0, 10))
         
-        # Main frame
-        main_frame = tk.Frame(self.root, padx=20, pady=10)
+        # Main frame - this will grow with the window
+        main_frame = tk.Frame(self.root, padx=15, pady=10)
         main_frame.pack(fill=tk.BOTH, expand=True)
         
         # Input folder selection
@@ -507,8 +508,8 @@ class PDFMergerGUI:
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         
         # Buttons frame
-        button_frame = tk.Frame(self.root, pady=10)
-        button_frame.pack()
+        button_frame = tk.Frame(self.root, pady=15, bg=self.root.cget('bg'))
+        button_frame.pack(fill=tk.X, side=tk.BOTTOM)
         
         self.merge_button = tk.Button(
             button_frame,
@@ -517,19 +518,21 @@ class PDFMergerGUI:
             bg="#4CAF50",
             fg="white",
             font=("Arial", 12, "bold"),
-            padx=20,
-            pady=10
+            padx=25,
+            pady=12,
+            cursor="hand2"
         )
-        self.merge_button.pack(side=tk.LEFT, padx=5)
+        self.merge_button.pack(side=tk.LEFT, padx=10)
         
         tk.Button(
             button_frame,
             text="Exit",
             command=self.root.quit,
             font=("Arial", 12),
-            padx=20,
-            pady=10
-        ).pack(side=tk.LEFT, padx=5)
+            padx=25,
+            pady=12,
+            cursor="hand2"
+        ).pack(side=tk.LEFT, padx=10)
     
     def browse_input(self):
         """Browse for input folder."""
