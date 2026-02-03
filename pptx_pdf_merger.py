@@ -10,10 +10,64 @@ import os
 import subprocess
 import tempfile
 from pathlib import Path
-from PyPDF2 import PdfMerger
 import shutil
 import sys
 import platform
+
+# Check for required Python modules
+def check_python_requirements():
+    """Check and verify all required Python packages are installed."""
+    missing_packages = []
+    
+    # Check PyPDF2
+    try:
+        from PyPDF2 import PdfMerger
+    except ImportError:
+        missing_packages.append("PyPDF2")
+    
+    # Check Pillow
+    try:
+        from PIL import Image
+    except ImportError:
+        missing_packages.append("Pillow")
+    
+    # Check tkinter (built-in, but may be missing on some systems)
+    try:
+        import tkinter as tk
+    except ImportError:
+        missing_packages.append("tkinter")
+    
+    return missing_packages
+
+# Check requirements before proceeding
+missing = check_python_requirements()
+if missing:
+    print("=" * 70)
+    print("ERROR: Missing Python packages!")
+    print("=" * 70)
+    print(f"\nThe following packages are not installed:")
+    for pkg in missing:
+        print(f"  - {pkg}")
+    print("\nTo fix this, please run:")
+    print("  pip install -r requirements.txt")
+    
+    if "tkinter" in missing:
+        os_type = platform.system()
+        if os_type == "Darwin":
+            print("\nFor tkinter on macOS, you may need to:")
+            print("  1. Use homebrew: brew install python-tk@3.13 (or your Python version)")
+            print("  2. Or reinstall Python with: brew install python-tk")
+        elif os_type == "Linux":
+            print("\nFor tkinter on Linux, run:")
+            print("  Ubuntu/Debian: sudo apt-get install python3-tk")
+            print("  Fedora: sudo dnf install python3-tkinter")
+            print("  Arch: sudo pacman -S tk")
+    
+    print("\n" + "=" * 70)
+    sys.exit(1)
+
+# Now import remaining modules
+from PyPDF2 import PdfMerger
 from PIL import Image
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
